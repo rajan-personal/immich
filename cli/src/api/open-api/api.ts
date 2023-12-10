@@ -366,6 +366,18 @@ export interface AllJobStatusResponseDto {
      * @type {JobStatusDto}
      * @memberof AllJobStatusResponseDto
      */
+    'faceDetection': JobStatusDto;
+    /**
+     * 
+     * @type {JobStatusDto}
+     * @memberof AllJobStatusResponseDto
+     */
+    'facialRecognition': JobStatusDto;
+    /**
+     * 
+     * @type {JobStatusDto}
+     * @memberof AllJobStatusResponseDto
+     */
     'library': JobStatusDto;
     /**
      * 
@@ -385,12 +397,6 @@ export interface AllJobStatusResponseDto {
      * @memberof AllJobStatusResponseDto
      */
     'objectTagging': JobStatusDto;
-    /**
-     * 
-     * @type {JobStatusDto}
-     * @memberof AllJobStatusResponseDto
-     */
-    'recognizeFaces': JobStatusDto;
     /**
      * 
      * @type {JobStatusDto}
@@ -2016,7 +2022,8 @@ export const JobName = {
     MetadataExtraction: 'metadataExtraction',
     VideoConversion: 'videoConversion',
     ObjectTagging: 'objectTagging',
-    RecognizeFaces: 'recognizeFaces',
+    FaceDetection: 'faceDetection',
+    FacialRecognition: 'facialRecognition',
     ClipEncoding: 'clipEncoding',
     BackgroundTask: 'backgroundTask',
     StorageTemplateMigration: 'storageTemplateMigration',
@@ -3772,6 +3779,18 @@ export interface SystemConfigJobDto {
      * @type {JobSettingsDto}
      * @memberof SystemConfigJobDto
      */
+    'faceDetection': JobSettingsDto;
+    /**
+     * 
+     * @type {JobSettingsDto}
+     * @memberof SystemConfigJobDto
+     */
+    'facialRecognition': JobSettingsDto;
+    /**
+     * 
+     * @type {JobSettingsDto}
+     * @memberof SystemConfigJobDto
+     */
     'library': JobSettingsDto;
     /**
      * 
@@ -3791,12 +3810,6 @@ export interface SystemConfigJobDto {
      * @memberof SystemConfigJobDto
      */
     'objectTagging': JobSettingsDto;
-    /**
-     * 
-     * @type {JobSettingsDto}
-     * @memberof SystemConfigJobDto
-     */
-    'recognizeFaces': JobSettingsDto;
     /**
      * 
      * @type {JobSettingsDto}

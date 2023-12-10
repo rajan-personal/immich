@@ -10,11 +10,12 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **backgroundTask** | [**JobStatusDto**](JobStatusDto.md) |  | 
 **clipEncoding** | [**JobStatusDto**](JobStatusDto.md) |  | 
+**faceDetection** | [**JobStatusDto**](JobStatusDto.md) |  | 
+**facialRecognition** | [**JobStatusDto**](JobStatusDto.md) |  | 
 **library_** | [**JobStatusDto**](JobStatusDto.md) |  | 
 **metadataExtraction** | [**JobStatusDto**](JobStatusDto.md) |  | 
 **migration** | [**JobStatusDto**](JobStatusDto.md) |  | 
 **objectTagging** | [**JobStatusDto**](JobStatusDto.md) |  | 
-**recognizeFaces** | [**JobStatusDto**](JobStatusDto.md) |  | 
 **search** | [**JobStatusDto**](JobStatusDto.md) |  | 
 **sidecar** | [**JobStatusDto**](JobStatusDto.md) |  | 
 **storageTemplateMigration** | [**JobStatusDto**](JobStatusDto.md) |  | 
