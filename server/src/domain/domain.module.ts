@@ -9,6 +9,7 @@ import { JobService } from './job';
 import { LibraryService } from './library';
 import { MediaService } from './media';
 import { MetadataService } from './metadata';
+import { MetricsService } from './metrics';
 import { PartnerService } from './partner';
 import { PersonService } from './person';
 import { SearchService } from './search';
@@ -31,6 +32,7 @@ const providers: Provider[] = [
   JobService,
   MediaService,
   MetadataService,
+  MetricsService,
   LibraryService,
   PersonService,
   PartnerService,
