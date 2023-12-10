@@ -40,16 +40,24 @@ abstract class _$AlbumActivity
   ]);
 }
 
-/// See also [AlbumActivity].
+/// Maintains the current list of all activities for <share-album-id, asset>
+///
+/// Copied from [AlbumActivity].
 @ProviderFor(AlbumActivity)
 const albumActivityProvider = AlbumActivityFamily();
 
-/// See also [AlbumActivity].
+/// Maintains the current list of all activities for <share-album-id, asset>
+///
+/// Copied from [AlbumActivity].
 class AlbumActivityFamily extends Family<AsyncValue<List<Activity>>> {
-  /// See also [AlbumActivity].
+  /// Maintains the current list of all activities for <share-album-id, asset>
+  ///
+  /// Copied from [AlbumActivity].
   const AlbumActivityFamily();
 
-  /// See also [AlbumActivity].
+  /// Maintains the current list of all activities for <share-album-id, asset>
+  ///
+  /// Copied from [AlbumActivity].
   AlbumActivityProvider call(
     String albumId, [
     String? assetId,
@@ -85,10 +93,14 @@ class AlbumActivityFamily extends Family<AsyncValue<List<Activity>>> {
   String? get name => r'albumActivityProvider';
 }
 
-/// See also [AlbumActivity].
+/// Maintains the current list of all activities for <share-album-id, asset>
+///
+/// Copied from [AlbumActivity].
 class AlbumActivityProvider extends AutoDisposeAsyncNotifierProviderImpl<
     AlbumActivity, List<Activity>> {
-  /// See also [AlbumActivity].
+  /// Maintains the current list of all activities for <share-album-id, asset>
+  ///
+  /// Copied from [AlbumActivity].
   AlbumActivityProvider(
     String albumId, [
     String? assetId,
@@ -192,174 +204,6 @@ class _AlbumActivityProviderElement
   String get albumId => (origin as AlbumActivityProvider).albumId;
   @override
   String? get assetId => (origin as AlbumActivityProvider).assetId;
-}
-
-String _$activityStatisticsHash() =>
-    r'59713471a245bce652e7829d120b2bc55cd8c8d9';
-
-abstract class _$ActivityStatistics
-    extends BuildlessAutoDisposeAsyncNotifier<int> {
-  late final String albumId;
-  late final String? assetId;
-
-  Future<int> build(
-    String albumId, [
-    String? assetId,
-  ]);
-}
-
-/// See also [ActivityStatistics].
-@ProviderFor(ActivityStatistics)
-const activityStatisticsProvider = ActivityStatisticsFamily();
-
-/// See also [ActivityStatistics].
-class ActivityStatisticsFamily extends Family<AsyncValue<int>> {
-  /// See also [ActivityStatistics].
-  const ActivityStatisticsFamily();
-
-  /// See also [ActivityStatistics].
-  ActivityStatisticsProvider call(
-    String albumId, [
-    String? assetId,
-  ]) {
-    return ActivityStatisticsProvider(
-      albumId,
-      assetId,
-    );
-  }
-
-  @override
-  ActivityStatisticsProvider getProviderOverride(
-    covariant ActivityStatisticsProvider provider,
-  ) {
-    return call(
-      provider.albumId,
-      provider.assetId,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'activityStatisticsProvider';
-}
-
-/// See also [ActivityStatistics].
-class ActivityStatisticsProvider
-    extends AutoDisposeAsyncNotifierProviderImpl<ActivityStatistics, int> {
-  /// See also [ActivityStatistics].
-  ActivityStatisticsProvider(
-    String albumId, [
-    String? assetId,
-  ]) : this._internal(
-          () => ActivityStatistics()
-            ..albumId = albumId
-            ..assetId = assetId,
-          from: activityStatisticsProvider,
-          name: r'activityStatisticsProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$activityStatisticsHash,
-          dependencies: ActivityStatisticsFamily._dependencies,
-          allTransitiveDependencies:
-              ActivityStatisticsFamily._allTransitiveDependencies,
-          albumId: albumId,
-          assetId: assetId,
-        );
-
-  ActivityStatisticsProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.albumId,
-    required this.assetId,
-  }) : super.internal();
-
-  final String albumId;
-  final String? assetId;
-
-  @override
-  Future<int> runNotifierBuild(
-    covariant ActivityStatistics notifier,
-  ) {
-    return notifier.build(
-      albumId,
-      assetId,
-    );
-  }
-
-  @override
-  Override overrideWith(ActivityStatistics Function() create) {
-    return ProviderOverride(
-      origin: this,
-      override: ActivityStatisticsProvider._internal(
-        () => create()
-          ..albumId = albumId
-          ..assetId = assetId,
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        albumId: albumId,
-        assetId: assetId,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeAsyncNotifierProviderElement<ActivityStatistics, int>
-      createElement() {
-    return _ActivityStatisticsProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is ActivityStatisticsProvider &&
-        other.albumId == albumId &&
-        other.assetId == assetId;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, albumId.hashCode);
-    hash = _SystemHash.combine(hash, assetId.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-mixin ActivityStatisticsRef on AutoDisposeAsyncNotifierProviderRef<int> {
-  /// The parameter `albumId` of this provider.
-  String get albumId;
-
-  /// The parameter `assetId` of this provider.
-  String? get assetId;
-}
-
-class _ActivityStatisticsProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<ActivityStatistics, int>
-    with ActivityStatisticsRef {
-  _ActivityStatisticsProviderElement(super.provider);
-
-  @override
-  String get albumId => (origin as ActivityStatisticsProvider).albumId;
-  @override
-  String? get assetId => (origin as ActivityStatisticsProvider).assetId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
