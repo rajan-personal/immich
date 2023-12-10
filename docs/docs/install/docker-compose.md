@@ -89,15 +89,6 @@ UPLOAD_LOCATION=absolute_location_on_your_machine_where_you_want_to_store_the_ba
 LOG_LEVEL=simple
 
 ###################################################################################
-# Typesense
-###################################################################################
-# TYPESENSE_ENABLED=false
-TYPESENSE_API_KEY=some-random-text
-# TYPESENSE_HOST: typesense
-# TYPESENSE_PORT: 8108
-# TYPESENSE_PROTOCOL: http
-
-###################################################################################
 # Reverse Geocoding
 #
 # Reverse geocoding is done locally which has a small impact on memory usage
@@ -137,7 +128,6 @@ PUBLIC_LOGIN_PAGE_MESSAGE="My Family Photos and Videos Backup Server"
 - Populate custom database information if necessary.
 - Populate `UPLOAD_LOCATION` with your preferred location for storing backup assets.
 - Consider changing `DB_PASSWORD` to something randomly generated
-- Consider changing `TYPESENSE_API_KEY` to something randomly generated
 
 ### Step 3 - Start the containers
 
@@ -146,6 +136,19 @@ From the directory you created in Step 1, (which should now contain your customi
 ```bash title="Start the containers using docker compose command"
 docker compose up -d
 ```
+
+:::tip
+If you get an error `unknown shorthand flag: 'd' in -d`, you are probably running the wrong Docker version. (This happens, for example, with the docker.io package in Ubuntu 22.04.3 LTS.) You can correct the problem by `apt remove`ing Ubuntu's docker.io package and installing docker and docker-compose via [Docker's official repository](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository).
+
+Note that the correct command really is `docker compose`, not `docker-compose`. If you try the latter on vanilla Ubuntu 22.04 it will fail in a different way:
+
+```
+The Compose file './docker-compose.yml' is invalid because:
+'name' does not match any of the regexes: '^x-'
+```
+
+See the previous paragraph about installing from the official docker repository.
+:::
 
 :::tip
 For more information on how to use the application, please refer to the [Post Installation](/docs/install/post-install.mdx) guide.
