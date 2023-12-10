@@ -12,6 +12,7 @@
     mdiFileJpgBox,
     mdiFileXmlBox,
     mdiFolderMove,
+    mdiImageSearch,
     mdiLibraryShelves,
     mdiTable,
     mdiTagMultiple,
@@ -49,7 +50,7 @@
 
   const onFaceConfirm = () => {
     faceConfirm = false;
-    handleCommand(JobName.RecognizeFaces, { command: JobCommand.Start, force: true });
+    handleCommand(JobName.FaceDetection, { command: JobCommand.Start, force: true });
   };
 
   $: jobDetails = <Partial<Record<JobName, JobDetails>>>{
@@ -85,16 +86,22 @@
       disabled: !$featureFlags.tagImage,
     },
     [JobName.ClipEncoding]: {
-      icon: mdiVectorCircle,
+      icon: mdiImageSearch,
       title: api.getJobName(JobName.ClipEncoding),
-      subtitle: 'Run machine learning to generate clip embeddings',
+      subtitle: 'Run machine learning to generate CLIP embeddings',
       disabled: !$featureFlags.clipEncode,
     },
-    [JobName.RecognizeFaces]: {
+    [JobName.FaceDetection]: {
       icon: mdiFaceRecognition,
-      title: api.getJobName(JobName.RecognizeFaces),
-      subtitle: 'Run machine learning to recognize faces',
+      title: api.getJobName(JobName.FaceDetection),
+      subtitle: 'Find the faces in your assets',
       handleCommand: handleFaceCommand,
+      disabled: !$featureFlags.facialRecognition,
+    },
+    [JobName.FacialRecognition]: {
+      icon: mdiVectorCircle,
+      title: api.getJobName(JobName.FacialRecognition),
+      subtitle: 'Group the faces in your assets into people',
       disabled: !$featureFlags.facialRecognition,
     },
     [JobName.VideoConversion]: {

@@ -1,5 +1,4 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { setTimeout } from 'timers/promises';
 import { usePagination } from '../domain.util';
 import { IBaseJob, IEntityJob, JOBS_ASSET_PAGINATION_SIZE, JobName, QueueName } from '../job';
 import {
@@ -30,13 +29,7 @@ export class SmartInfoService {
   async init() {
     await this.jobRepository.pause(QueueName.CLIP_ENCODING);
 
-    let { isActive } = await this.jobRepository.getQueueStatus(QueueName.CLIP_ENCODING);
-    while (isActive) {
-      this.logger.verbose('Waiting for CLIP encoding queue to stop...');
-      await setTimeout(1000).then(async () => {
-        ({ isActive } = await this.jobRepository.getQueueStatus(QueueName.CLIP_ENCODING));
-      });
-    }
+    await this.jobRepository.waitForQueueCompletion(QueueName.CLIP_ENCODING);
 
     const { machineLearning } = await this.configCore.getConfig();
 

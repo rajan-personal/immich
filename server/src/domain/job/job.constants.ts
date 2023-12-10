@@ -3,7 +3,8 @@ export enum QueueName {
   METADATA_EXTRACTION = 'metadataExtraction',
   VIDEO_CONVERSION = 'videoConversion',
   OBJECT_TAGGING = 'objectTagging',
-  RECOGNIZE_FACES = 'recognizeFaces',
+  FACE_DETECTION = 'faceDetection',
+  FACIAL_RECOGNITION = 'facialRecognition',
   CLIP_ENCODING = 'clipEncoding',
   BACKGROUND_TASK = 'backgroundTask',
   STORAGE_TEMPLATE_MIGRATION = 'storageTemplateMigration',
@@ -63,8 +64,10 @@ export enum JobName {
   // facial recognition
   PERSON_CLEANUP = 'person-cleanup',
   PERSON_DELETE = 'person-delete',
-  QUEUE_RECOGNIZE_FACES = 'queue-recognize-faces',
-  RECOGNIZE_FACES = 'recognize-faces',
+  QUEUE_FACE_DETECTION = 'queue-face-detection',
+  FACE_DETECTION = 'face-detection',
+  QUEUE_FACIAL_RECOGNITION = 'queue-facial-recognition',
+  FACIAL_RECOGNITION = 'facial-recognition',
 
   // library managment
   LIBRARY_SCAN = 'library-refresh',
@@ -133,8 +136,10 @@ export const JOBS_TO_QUEUE: Record<JobName, QueueName> = {
   [JobName.CLASSIFY_IMAGE]: QueueName.OBJECT_TAGGING,
 
   // facial recognition
-  [JobName.QUEUE_RECOGNIZE_FACES]: QueueName.RECOGNIZE_FACES,
-  [JobName.RECOGNIZE_FACES]: QueueName.RECOGNIZE_FACES,
+  [JobName.QUEUE_FACE_DETECTION]: QueueName.FACE_DETECTION,
+  [JobName.FACE_DETECTION]: QueueName.FACE_DETECTION,
+  [JobName.QUEUE_FACIAL_RECOGNITION]: QueueName.FACIAL_RECOGNITION,
+  [JobName.FACIAL_RECOGNITION]: QueueName.FACIAL_RECOGNITION,
 
   // clip
   [JobName.QUEUE_ENCODE_CLIP]: QueueName.CLIP_ENCODING,

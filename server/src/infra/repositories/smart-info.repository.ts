@@ -1,4 +1,4 @@
-import { Embedding, EmbeddingSearch, ISmartInfoRepository } from '@app/domain';
+import { Embedding, EmbeddingSearch, FaceEmbeddingSearch, ISmartInfoRepository } from '@app/domain';
 import { getCLIPModelInfo } from '@app/domain/smart-info/smart-info.constant';
 import { DatabaseLock, RequireLock, asyncLock } from '@app/infra';
 import { AssetEntity, AssetFaceEntity, SmartInfoEntity, SmartSearchEntity } from '@app/infra/entities';
@@ -75,7 +75,7 @@ export class SmartInfoRepository implements ISmartInfoRepository {
       },
     ],
   })
-  async searchFaces({ ownerId, embedding, numResults, maxDistance }: EmbeddingSearch): Promise<AssetFaceEntity[]> {
+  async searchFaces({ ownerId, embedding, numResults, maxDistance, hasPerson }: FaceEmbeddingSearch): Promise<AssetFaceEntity[]> {
     if (!isValidInteger(numResults, { min: 1 })) {
       throw new Error(`Invalid value for 'numResults': ${numResults}`);
     }
@@ -91,16 +91,26 @@ export class SmartInfoRepository implements ISmartInfoRepository {
         .orderBy('1 + (faces.embedding <=> :embedding)')
         .setParameters({ ownerId, embedding: asVector(embedding) })
         .limit(numResults);
+      
+      if (hasPerson) {
+        cte.andWhere('faces."personId" IS NOT NULL');
+      }
 
       this.faceColumns.forEach((col) => cte.addSelect(`faces.${col}`, col));
 
-      results = await manager
+      const query = await manager
         .createQueryBuilder()
         .select('res.*')
         .addCommonTableExpression(cte, 'cte')
         .from('cte', 'res')
         .where('res.distance <= :maxDistance', { maxDistance })
-        .getRawMany();
+
+      // TODO: decide whether to pre-filter or post-filter for this
+      // if (hasPerson) {
+      //   query.andWhere('res."personId" IS NOT NULL');
+      // }
+
+      results = await query.getRawMany();
     });
 
     return this.assetFaceRepository.create(results);
