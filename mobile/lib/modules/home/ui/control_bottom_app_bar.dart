@@ -97,18 +97,6 @@ class ControlBottomAppBar extends ConsumerWidget {
                 .tr(),
             onPressed: enabled ? onFavorite : null,
           ),
-        if (hasRemote && onEditTime != null)
-          ControlBoxButton(
-            iconData: Icons.edit_calendar_outlined,
-            label: "control_bottom_app_bar_edit_time".tr(),
-            onPressed: enabled ? onEditTime : null,
-          ),
-        if (hasRemote && onEditLocation != null)
-          ControlBoxButton(
-            iconData: Icons.edit_location_alt_outlined,
-            label: "control_bottom_app_bar_edit_location".tr(),
-            onPressed: enabled ? onEditLocation : null,
-          ),
         if (hasRemote && onDelete != null)
           ControlBoxButton(
             iconData: Icons.delete_outline_rounded,
@@ -132,7 +120,7 @@ class ControlBottomAppBar extends ConsumerWidget {
           ),
         if (hasLocal && onDeleteLocal != null)
           ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 100),
+            constraints: const BoxConstraints(maxWidth: 85),
             child: ControlBoxButton(
               iconData: Icons.no_cell_rounded,
               label: "control_bottom_app_bar_delete_from_local".tr(),
@@ -149,6 +137,24 @@ class ControlBottomAppBar extends ConsumerWidget {
                       );
                     }
                   : null,
+            ),
+          ),
+        if (hasRemote && onEditTime != null)
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 80),
+            child: ControlBoxButton(
+              iconData: Icons.edit_calendar_outlined,
+              label: "control_bottom_app_bar_edit_time".tr(),
+              onPressed: enabled ? onEditTime : null,
+            ),
+          ),
+        if (hasRemote && onEditLocation != null)
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 80),
+            child: ControlBoxButton(
+              iconData: Icons.edit_location_alt_outlined,
+              label: "control_bottom_app_bar_edit_location".tr(),
+              onPressed: enabled ? onEditLocation : null,
             ),
           ),
         if (!hasLocal &&
@@ -211,7 +217,7 @@ class ControlBottomAppBar extends ConsumerWidget {
                   children: <Widget>[
                     const SizedBox(height: 12),
                     const CustomDraggingHandle(),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 24),
                     SizedBox(
                       height: 90,
                       child: ListView(
