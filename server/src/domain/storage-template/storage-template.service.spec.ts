@@ -20,7 +20,7 @@ import {
   ISystemConfigRepository,
   IUserRepository,
 } from '../repositories';
-import { defaults } from '../system-config/system-config.core';
+import { SystemConfigCore, defaults } from '../system-config';
 import { StorageTemplateService } from './storage-template.service';
 
 describe(StorageTemplateService.name, () => {
@@ -46,16 +46,9 @@ describe(StorageTemplateService.name, () => {
     storageMock = newStorageRepositoryMock();
     userMock = newUserRepositoryMock();
 
-    sut = new StorageTemplateService(
-      albumMock,
-      assetMock,
-      configMock,
-      defaults,
-      moveMock,
-      personMock,
-      storageMock,
-      userMock,
-    );
+    sut = new StorageTemplateService(albumMock, assetMock, configMock, moveMock, personMock, storageMock, userMock);
+
+    SystemConfigCore.create(configMock).config$.next(defaults);
   });
 
   describe('handleMigrationSingle', () => {

@@ -124,7 +124,7 @@ export class JobService {
     }
   }
 
-  async registerHandlers(jobHandlers: Record<JobName, JobHandler>) {
+  async init(jobHandlers: Record<JobName, JobHandler>) {
     const config = await this.configCore.getConfig();
     for (const queueName of Object.values(QueueName)) {
       const concurrency = config.job[queueName].concurrency;
