@@ -19,7 +19,6 @@ export const load = (async ({ params }) => {
     const assetId = sharedLink.album?.albumThumbnailAssetId || sharedLink.assets[0]?.id;
 
     return {
-      user,
       sharedLink,
       meta: {
         title: sharedLink.album ? sharedLink.album.albumName : 'Public Share',

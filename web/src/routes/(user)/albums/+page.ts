@@ -3,15 +3,14 @@ import { api } from '@api';
 import type { PageLoad } from './$types';
 
 export const load = (async () => {
-  const user = await authenticate();
+  await authenticate();
   // const { data: albums } = await api.albumApi.getAllAlbums();
   const { data: nsalbums } = await api.albumApi.getAllAlbums({ shared: false });
   const { data: salbums } = await api.albumApi.getAllAlbums({ shared: true });
 
-  const albums = [...nsalbums,...salbums]
+  const albums = [...nsalbums,...salbums];
 
   return {
-    user,
     albums,
     meta: {
       title: 'Albums',
