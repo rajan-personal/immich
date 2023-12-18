@@ -60,6 +60,7 @@
   import AlbumOptions from '$lib/components/album-page/album-options.svelte';
   import UpdatePanel from '$lib/components/shared-components/update-panel.svelte';
   import { user } from '$lib/stores/user.store';
+  import ImageThumbnail from '$lib/components/assets/thumbnail/image-thumbnail.svelte';
 
   export let data: PageData;
 
@@ -102,6 +103,9 @@
   let reactions: ActivityResponseDto[] = [];
   let globalWidth: number;
   let assetGridWidth: number;
+  let MAX_ITEMS: number;
+  let innerWidth: number;
+  let screenSize: number;
 
   const assetStore = new AssetStore({ albumId: album.id });
   const assetInteractionStore = createAssetInteractionStore();
@@ -123,6 +127,14 @@
   }
   $: showActivityStatus =
     album.sharedUsers.length > 0 && !$showAssetViewer && (album.isActivityEnabled || $numberOfComments > 0);
+  $: people = data.response.people.slice(0, MAX_ITEMS);
+  $: hasPeople = data.response.total > 0;
+  $: {
+    if (innerWidth && screenSize) {
+      // Set the number of faces according to the screen size and the div size
+      MAX_ITEMS = data.response.people.length;
+    }
+  }
 
   afterNavigate(({ from }) => {
     assetViewingStore.showAssetViewer(false);
@@ -431,6 +443,8 @@
   };
 </script>
 
+<svelte:window bind:innerWidth={screenSize} />
+
 <div class="flex overflow-hidden" bind:clientWidth={globalWidth}>
   <div class="relative w-full shrink">
     {#if $isMultiSelectState}
@@ -640,6 +654,35 @@
                 >
                   {album.description || 'Add description'}
                 </button>
+              {/if}
+
+              {#if hasPeople}
+                <div class="mb-6 mt-2">
+                  <div class="flex justify-between">
+                    <p class="mb-4 font-medium dark:text-immich-dark-fg">People</p>
+                    <!-- <a
+                      href={AppRoute.PEOPLE}
+                      class="pr-4 text-sm font-medium hover:text-immich-primary dark:text-immich-dark-fg dark:hover:text-immich-dark-primary"
+                      draggable="false">View All</a
+                    > -->
+                  </div>
+                  <div class="flex flex-row {MAX_ITEMS < 5 ? 'justify-center' : ''} flex-wrap gap-4" bind:offsetWidth={innerWidth}>
+                    {#if MAX_ITEMS}
+                      {#each people as person (person.id)}
+                        <a href="/people/{person.id}?albumId={album.id}" class="w-20 md:w-24 text-center">
+                          <ImageThumbnail
+                            circle
+                            shadow
+                            url={api.getPeopleThumbnailUrl(person.id)}
+                            altText={person.name}
+                            widthStyle="100%"
+                          />
+                          <p class="mt-2 text-ellipsis text-sm font-medium dark:text-white">{person.name}</p>
+                        </a>
+                      {/each}
+                    {/if}
+                  </div>
+                </div>
               {/if}
             </section>
           {/if}

@@ -335,17 +335,17 @@
   <ShowShortcuts on:close={() => (showShortcuts = !showShortcuts)} />
 {/if}
 
-<Scrollbar
+<!-- <Scrollbar
   {assetStore}
   height={viewport.height}
   {timelineY}
   on:scrollTimeline={({ detail }) => (element.scrollTop = detail)}
-/>
+/> -->
 
 <!-- Right margin MUST be equal to the width of immich-scrubbable-scrollbar -->
 <section
   id="asset-grid"
-  class="scrollbar-hidden h-full overflow-y-auto pb-[60px] {isEmpty ? 'm-0' : 'ml-4 mr-[60px]'}"
+  class="scrollbar-hidden h-full overflow-y-auto pb-[60px] {isEmpty ? 'm-0' : 'ml-4 mr-4'}"
   bind:clientHeight={viewport.height}
   bind:clientWidth={viewport.width}
   bind:this={element}

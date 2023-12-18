@@ -28,11 +28,16 @@ function asStreamableFile({ stream, type, length }: ImmichReadStream) {
 @Authenticated()
 @UseValidation()
 export class PersonController {
-  constructor(private service: PersonService) {}
+  constructor(private service: PersonService) { }
 
   @Get()
   getAllPeople(@Auth() auth: AuthDto, @Query() withHidden: PersonSearchDto): Promise<PeopleResponseDto> {
     return this.service.getAll(auth, withHidden);
+  }
+
+  @Get('album/:id')
+  getAllPeopleFromAlbum(@Auth() auth: AuthDto, @Param() { id }: UUIDParamDto, @Query() withHidden: PersonSearchDto): Promise<PeopleResponseDto> {
+    return this.service.getAllforAlbum(auth, id, withHidden);
   }
 
   @Post()
@@ -97,3 +102,4 @@ export class PersonController {
     return this.service.mergePerson(auth, id, dto);
   }
 }
+

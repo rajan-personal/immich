@@ -57,7 +57,9 @@
   let assetStore = new AssetStore({
     isArchived: false,
     personId: data.person.id,
+    albumId: data.albumId ? data.albumId : undefined
   });
+
   const assetInteractionStore = createAssetInteractionStore();
   const { selectedAssets, isMultiSelectState } = assetInteractionStore;
   const { onPersonThumbnail } = websocketStore;

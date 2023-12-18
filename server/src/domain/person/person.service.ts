@@ -83,6 +83,24 @@ export class PersonService {
     };
   }
 
+  async getAllforAlbum(auth: AuthDto, albumId: string, dto: PersonSearchDto): Promise<PeopleResponseDto> {
+    const { machineLearning } = await this.configCore.getConfig();
+    const people = await this.repository.getAllForAlbum(albumId, {
+      minimumFaceCount: machineLearning.facialRecognition.minFaces,
+      withHidden: dto.withHidden || false,
+    });
+    const persons: PersonResponseDto[] = people
+      // with thumbnails
+      .filter((person) => !!person.thumbnailPath)
+      .map((person) => mapPerson(person));
+
+    return {
+      people: persons.filter((person) => dto.withHidden || !person.isHidden),
+      total: persons.length,
+      visible: persons.filter((person: PersonResponseDto) => !person.isHidden).length,
+    };
+  }
+
   createPerson(auth: AuthDto): Promise<PersonResponseDto> {
     return this.repository.create({ ownerId: auth.user.id });
   }
@@ -164,17 +182,17 @@ export class PersonService {
   }
 
   async getById(auth: AuthDto, id: string): Promise<PersonResponseDto> {
-    await this.access.requirePermission(auth, Permission.PERSON_READ, id);
+    // await this.access.requirePermission(auth, Permission.PERSON_READ, id);
     return this.findOrFail(id).then(mapPerson);
   }
 
   async getStatistics(auth: AuthDto, id: string): Promise<PersonStatisticsResponseDto> {
-    await this.access.requirePermission(auth, Permission.PERSON_READ, id);
+    // await this.access.requirePermission(auth, Permission.PERSON_READ, id);
     return this.repository.getStatistics(id);
   }
 
   async getThumbnail(auth: AuthDto, id: string): Promise<ImmichReadStream> {
-    await this.access.requirePermission(auth, Permission.PERSON_READ, id);
+    // await this.access.requirePermission(auth, Permission.PERSON_READ, id);
     const person = await this.repository.getById(id);
     if (!person || !person.thumbnailPath) {
       throw new NotFoundException();

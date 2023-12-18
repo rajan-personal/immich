@@ -17,7 +17,10 @@
     </p>
 
     <LoginForm
-      on:success={() => goto(AppRoute.PHOTOS, { invalidateAll: true })}
+      on:success={() => {
+        if (data.joinToken) goto('/share/' + data.joinToken)
+        else goto(AppRoute.PHOTOS, { invalidateAll: true })
+      }}
       on:first-login={() => goto(AppRoute.AUTH_CHANGE_PASSWORD)}
     />
   </FullscreenContainer>
