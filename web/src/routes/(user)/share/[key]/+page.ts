@@ -3,10 +3,14 @@ import { api, ThumbnailFormat } from '@api';
 import { error } from '@sveltejs/kit';
 import type { AxiosError } from 'axios';
 import type { PageLoad } from './$types';
+import { AppRoute } from '$lib/constants';
+import { goto } from '$app/navigation';
 
 export const load = (async ({ params }) => {
   const { key } = params;
-  await getAuthUser();
+  const user = await getAuthUser();
+  if (!user) goto(AppRoute.AUTH_LOGIN + '?join=' + encodeURIComponent(key));
+  else api.sharedLinkApi.joinSharedLink({ token: key }).then(res => goto(AppRoute.ALBUMS + '/' + res.data)).catch((err: AxiosError) => console.log(err));
 
   try {
     const { data: sharedLink } = await api.sharedLinkApi.getMySharedLink({ key });

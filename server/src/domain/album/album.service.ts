@@ -273,6 +273,37 @@ export class AlbumService {
       .then(mapAlbumWithoutAssets);
   }
 
+  async addMeToAlbum(id: string, dto: AddUsersDto): Promise<AlbumResponseDto> {
+
+    const album = await this.findOrFail(id, { withAssets: false });
+
+    for (const userId of dto.sharedUserIds) {
+      if (album.ownerId === userId) {
+        throw new BadRequestException('Cannot be shared with owner');
+      }
+
+      const exists = album.sharedUsers.find((user) => user.id === userId);
+      if (exists) {
+        throw new BadRequestException('User already added');
+      }
+
+      const user = await this.userRepository.get(userId, {});
+      if (!user) {
+        throw new BadRequestException('User not found');
+      }
+
+      album.sharedUsers.push({ id: userId } as UserEntity);
+    }
+
+    return this.albumRepository
+      .update({
+        id: album.id,
+        updatedAt: new Date(),
+        sharedUsers: album.sharedUsers,
+      })
+      .then(mapAlbumWithoutAssets);
+  }
+
   async removeUser(auth: AuthDto, id: string, userId: string | 'me'): Promise<void> {
     if (userId === 'me') {
       userId = auth.user.id;

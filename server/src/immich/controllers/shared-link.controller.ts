@@ -1,7 +1,10 @@
 import {
+  AddUsersDto,
+  AlbumService,
   AssetIdsDto,
   AssetIdsResponseDto,
   AuthDto,
+  AuthService,
   IMMICH_SHARED_LINK_ACCESS_COOKIE,
   SharedLinkCreateDto,
   SharedLinkEditDto,
@@ -21,7 +24,11 @@ import { UUIDParamDto } from './dto/uuid-param.dto';
 @Authenticated()
 @UseValidation()
 export class SharedLinkController {
-  constructor(private readonly service: SharedLinkService) {}
+  constructor(
+    private readonly service: SharedLinkService,
+    private albumService: AlbumService,
+    private authService: AuthService,
+  ) {}
 
   @Get()
   getAllSharedLinks(@Auth() auth: AuthDto): Promise<SharedLinkResponseDto[]> {
@@ -49,6 +56,23 @@ export class SharedLinkController {
       });
     }
     return response;
+  }
+
+  @Get('join')
+  async joinSharedLink(
+    @Auth() auth: AuthDto,
+    @Query() dto: SharedLinkPasswordDto,
+  ) {
+    const userId = auth.user.id;
+    let key = dto.token;
+    let album = await this.authService.validateSharedLink(key as string);
+    let albumId: string = album.sharedLink!.albumId! as string;
+    let addUsers: AddUsersDto = {
+      sharedUserIds: [userId],
+    }
+    try {await this.albumService.addMeToAlbum(albumId, addUsers)}
+    catch (e) {console.log(e)}
+    return albumId;
   }
 
   @Get(':id')

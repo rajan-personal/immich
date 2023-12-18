@@ -96,6 +96,28 @@ export class PersonRepository implements IPersonRepository {
     return queryBuilder.getMany();
   }
 
+  @GenerateSql({ params: [DummyValue.UUID] })
+  getAllForAlbum(albumId: string, options?: PersonSearchOptions): Promise<PersonEntity[]> {
+    const queryBuilder = this.personRepository
+      .createQueryBuilder('person')
+      .leftJoin('person.faces', 'face')
+      .innerJoin('face.asset', 'asset')
+      .innerJoin('asset.albums', 'album')
+      .where('album.id = :albumId', { albumId })
+      .orderBy('person.isHidden', 'ASC')
+      .addOrderBy("NULLIF(person.name, '') IS NULL", 'ASC')
+      .addOrderBy('COUNT(face.assetId)', 'DESC')
+      .addOrderBy("NULLIF(person.name, '')", 'ASC', 'NULLS LAST')
+      .having("person.name != '' OR COUNT(face.assetId) >= :faces", { faces: options?.minimumFaceCount || 1 })
+      .groupBy('person.id')
+      .limit(500);
+    if (!options?.withHidden) {
+      queryBuilder.andWhere('person.isHidden = false');
+    }
+
+    return queryBuilder.getMany();
+  }
+
   @GenerateSql()
   getAllWithoutFaces(): Promise<PersonEntity[]> {
     return this.personRepository

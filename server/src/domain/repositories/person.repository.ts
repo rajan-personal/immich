@@ -29,6 +29,7 @@ export interface IPersonRepository {
   getAll(): Promise<PersonEntity[]>;
   getAllWithoutThumbnail(): Promise<PersonEntity[]>;
   getAllForUser(userId: string, options: PersonSearchOptions): Promise<PersonEntity[]>;
+  getAllForAlbum(albumId: string, options: PersonSearchOptions): Promise<PersonEntity[]>;
   getAllWithoutFaces(): Promise<PersonEntity[]>;
   getById(personId: string): Promise<PersonEntity | null>;
   getByName(userId: string, personName: string, options: PersonNameSearchOptions): Promise<PersonEntity[]>;
