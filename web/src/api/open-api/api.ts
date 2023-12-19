@@ -13728,6 +13728,53 @@ export const PersonApiAxiosParamCreator = function (configuration?: Configuratio
         /**
          * 
          * @param {string} id 
+         * @param {boolean} [withHidden] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllPeopleFromAlbum: async (id: string, withHidden?: boolean, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getAllPeopleFromAlbum', 'id', id)
+            const localVarPath = `/person/album/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication cookie required
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (withHidden !== undefined) {
+                localVarQueryParameter['withHidden'] = withHidden;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -14113,6 +14160,17 @@ export const PersonApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} id 
+         * @param {boolean} [withHidden] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAllPeopleFromAlbum(id: string, withHidden?: boolean, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PeopleResponseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllPeopleFromAlbum(id, withHidden, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -14222,6 +14280,15 @@ export const PersonApiFactory = function (configuration?: Configuration, basePat
         },
         /**
          * 
+         * @param {PersonApiGetAllPeopleFromAlbumRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllPeopleFromAlbum(requestParameters: PersonApiGetAllPeopleFromAlbumRequest, options?: AxiosRequestConfig): AxiosPromise<PeopleResponseDto> {
+            return localVarFp.getAllPeopleFromAlbum(requestParameters.id, requestParameters.withHidden, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {PersonApiGetPersonRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -14305,6 +14372,27 @@ export interface PersonApiGetAllPeopleRequest {
      * 
      * @type {boolean}
      * @memberof PersonApiGetAllPeople
+     */
+    readonly withHidden?: boolean
+}
+
+/**
+ * Request parameters for getAllPeopleFromAlbum operation in PersonApi.
+ * @export
+ * @interface PersonApiGetAllPeopleFromAlbumRequest
+ */
+export interface PersonApiGetAllPeopleFromAlbumRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonApiGetAllPeopleFromAlbum
+     */
+    readonly id: string
+
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PersonApiGetAllPeopleFromAlbum
      */
     readonly withHidden?: boolean
 }
@@ -14468,6 +14556,17 @@ export class PersonApi extends BaseAPI {
      */
     public getAllPeople(requestParameters: PersonApiGetAllPeopleRequest = {}, options?: AxiosRequestConfig) {
         return PersonApiFp(this.configuration).getAllPeople(requestParameters.withHidden, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {PersonApiGetAllPeopleFromAlbumRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonApi
+     */
+    public getAllPeopleFromAlbum(requestParameters: PersonApiGetAllPeopleFromAlbumRequest, options?: AxiosRequestConfig) {
+        return PersonApiFp(this.configuration).getAllPeopleFromAlbum(requestParameters.id, requestParameters.withHidden, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -15526,6 +15625,54 @@ export const SharedLinkApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * 
+         * @param {string} [password] 
+         * @param {string} [token] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAlbumAccess: async (password?: string, token?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/shared-link/join`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication cookie required
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (password !== undefined) {
+                localVarQueryParameter['password'] = password;
+            }
+
+            if (token !== undefined) {
+                localVarQueryParameter['token'] = token;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -15834,6 +15981,17 @@ export const SharedLinkApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {string} [password] 
+         * @param {string} [token] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAlbumAccess(password?: string, token?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAlbumAccess(password, token, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -15923,6 +16081,15 @@ export const SharedLinkApiFactory = function (configuration?: Configuration, bas
          */
         createSharedLink(requestParameters: SharedLinkApiCreateSharedLinkRequest, options?: AxiosRequestConfig): AxiosPromise<SharedLinkResponseDto> {
             return localVarFp.createSharedLink(requestParameters.sharedLinkCreateDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {SharedLinkApiGetAlbumAccessRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAlbumAccess(requestParameters: SharedLinkApiGetAlbumAccessRequest = {}, options?: AxiosRequestConfig): AxiosPromise<string> {
+            return localVarFp.getAlbumAccess(requestParameters.password, requestParameters.token, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -16020,6 +16187,27 @@ export interface SharedLinkApiCreateSharedLinkRequest {
      * @memberof SharedLinkApiCreateSharedLink
      */
     readonly sharedLinkCreateDto: SharedLinkCreateDto
+}
+
+/**
+ * Request parameters for getAlbumAccess operation in SharedLinkApi.
+ * @export
+ * @interface SharedLinkApiGetAlbumAccessRequest
+ */
+export interface SharedLinkApiGetAlbumAccessRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SharedLinkApiGetAlbumAccess
+     */
+    readonly password?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof SharedLinkApiGetAlbumAccess
+     */
+    readonly token?: string
 }
 
 /**
@@ -16154,6 +16342,17 @@ export class SharedLinkApi extends BaseAPI {
      */
     public createSharedLink(requestParameters: SharedLinkApiCreateSharedLinkRequest, options?: AxiosRequestConfig) {
         return SharedLinkApiFp(this.configuration).createSharedLink(requestParameters.sharedLinkCreateDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SharedLinkApiGetAlbumAccessRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SharedLinkApi
+     */
+    public getAlbumAccess(requestParameters: SharedLinkApiGetAlbumAccessRequest = {}, options?: AxiosRequestConfig) {
+        return SharedLinkApiFp(this.configuration).getAlbumAccess(requestParameters.password, requestParameters.token, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

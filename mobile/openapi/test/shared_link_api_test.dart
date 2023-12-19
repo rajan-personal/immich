@@ -27,6 +27,11 @@ void main() {
       // TODO
     });
 
+    //Future<String> getAlbumAccess({ String password, String token }) async
+    test('test getAlbumAccess', () async {
+      // TODO
+    });
+
     //Future<List<SharedLinkResponseDto>> getAllSharedLinks() async
     test('test getAllSharedLinks', () async {
       // TODO
