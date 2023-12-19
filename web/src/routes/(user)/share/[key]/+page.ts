@@ -10,7 +10,7 @@ export const load = (async ({ params }) => {
   const { key } = params;
   const user = await getAuthUser();
   if (!user) goto(AppRoute.AUTH_LOGIN + '?join=' + encodeURIComponent(key));
-  else api.sharedLinkApi.joinSharedLink({ token: key }).then(res => goto(AppRoute.ALBUMS + '/' + res.data)).catch((err: AxiosError) => console.log(err));
+  else api.sharedLinkApi.getAlbumAccess({ token: key }).then(res => goto(AppRoute.ALBUMS + '/' + res.data)).catch((err: AxiosError) => console.log(err));
 
   try {
     const { data: sharedLink } = await api.sharedLinkApi.getMySharedLink({ key });

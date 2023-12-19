@@ -59,7 +59,7 @@ export class SharedLinkController {
   }
 
   @Get('join')
-  async joinSharedLink(
+  async getAlbumAccess(
     @Auth() auth: AuthDto,
     @Query() dto: SharedLinkPasswordDto,
   ) {

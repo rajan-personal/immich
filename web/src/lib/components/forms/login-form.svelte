@@ -64,10 +64,10 @@
         },
       });
 
-      if (!data.isAdmin && data.shouldChangePassword) {
-        dispatch('firstLogin');
-        return;
-      }
+      // if (!data.isAdmin && data.shouldChangePassword) {
+      //   dispatch('firstLogin');
+      //   return;
+      // }
 
       dispatch('success');
       return;
