@@ -20,7 +20,10 @@ test-e2e:
 	docker compose -f ./docker/docker-compose.test.yml up --renew-anon-volumes --abort-on-container-exit --exit-code-from immich-server --remove-orphans --build
 
 prod:
-	docker compose -f ./docker/docker-compose.prod.yml up --build -V --remove-orphans
+	docker compose -f ./docker/docker-compose.prod.yml up -d --build -V --remove-orphans
+
+prod-down:
+	docker compose -f ./docker/docker-compose.prod.yml down --remove-orphans
 
 prod-scale:
 	docker compose -f ./docker/docker-compose.prod.yml up --build -V --scale immich-server=3 --scale immich-microservices=3 --remove-orphans
