@@ -157,6 +157,7 @@ Class | Method | HTTP request | Description
 *PartnerApi* | [**updatePartner**](doc//PartnerApi.md#updatepartner) | **PUT** /partner/{id} | 
 *PersonApi* | [**createPerson**](doc//PersonApi.md#createperson) | **POST** /person | 
 *PersonApi* | [**getAllPeople**](doc//PersonApi.md#getallpeople) | **GET** /person | 
+*PersonApi* | [**getAllPeopleFromAlbum**](doc//PersonApi.md#getallpeoplefromalbum) | **GET** /person/album/{id} | 
 *PersonApi* | [**getPerson**](doc//PersonApi.md#getperson) | **GET** /person/{id} | 
 *PersonApi* | [**getPersonAssets**](doc//PersonApi.md#getpersonassets) | **GET** /person/{id}/assets | 
 *PersonApi* | [**getPersonStatistics**](doc//PersonApi.md#getpersonstatistics) | **GET** /person/{id}/statistics | 
@@ -178,6 +179,7 @@ Class | Method | HTTP request | Description
 *ServerInfoApi* | [**pingServer**](doc//ServerInfoApi.md#pingserver) | **GET** /server-info/ping | 
 *SharedLinkApi* | [**addSharedLinkAssets**](doc//SharedLinkApi.md#addsharedlinkassets) | **PUT** /shared-link/{id}/assets | 
 *SharedLinkApi* | [**createSharedLink**](doc//SharedLinkApi.md#createsharedlink) | **POST** /shared-link | 
+*SharedLinkApi* | [**getAlbumAccess**](doc//SharedLinkApi.md#getalbumaccess) | **GET** /shared-link/join | 
 *SharedLinkApi* | [**getAllSharedLinks**](doc//SharedLinkApi.md#getallsharedlinks) | **GET** /shared-link | 
 *SharedLinkApi* | [**getMySharedLink**](doc//SharedLinkApi.md#getmysharedlink) | **GET** /shared-link/me | 
 *SharedLinkApi* | [**getSharedLinkById**](doc//SharedLinkApi.md#getsharedlinkbyid) | **GET** /shared-link/{id} | 

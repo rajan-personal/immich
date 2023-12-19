@@ -108,6 +108,62 @@ class PersonApi {
     return null;
   }
 
+  /// Performs an HTTP 'GET /person/album/{id}' operation and returns the [Response].
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  ///
+  /// * [bool] withHidden:
+  Future<Response> getAllPeopleFromAlbumWithHttpInfo(String id, { bool? withHidden, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/person/album/{id}'
+      .replaceAll('{id}', id);
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    if (withHidden != null) {
+      queryParams.addAll(_queryParams('', 'withHidden', withHidden));
+    }
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  ///
+  /// * [bool] withHidden:
+  Future<PeopleResponseDto?> getAllPeopleFromAlbum(String id, { bool? withHidden, }) async {
+    final response = await getAllPeopleFromAlbumWithHttpInfo(id,  withHidden: withHidden, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PeopleResponseDto',) as PeopleResponseDto;
+    
+    }
+    return null;
+  }
+
   /// Performs an HTTP 'GET /person/{id}' operation and returns the [Response].
   /// Parameters:
   ///

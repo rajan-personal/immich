@@ -27,6 +27,11 @@ void main() {
       // TODO
     });
 
+    //Future<PeopleResponseDto> getAllPeopleFromAlbum(String id, { bool withHidden }) async
+    test('test getAllPeopleFromAlbum', () async {
+      // TODO
+    });
+
     //Future<PersonResponseDto> getPerson(String id) async
     test('test getPerson', () async {
       // TODO

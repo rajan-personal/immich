@@ -11,6 +11,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**addSharedLinkAssets**](SharedLinkApi.md#addsharedlinkassets) | **PUT** /shared-link/{id}/assets | 
 [**createSharedLink**](SharedLinkApi.md#createsharedlink) | **POST** /shared-link | 
+[**getAlbumAccess**](SharedLinkApi.md#getalbumaccess) | **GET** /shared-link/join | 
 [**getAllSharedLinks**](SharedLinkApi.md#getallsharedlinks) | **GET** /shared-link | 
 [**getMySharedLink**](SharedLinkApi.md#getmysharedlink) | **GET** /shared-link/me | 
 [**getSharedLinkById**](SharedLinkApi.md#getsharedlinkbyid) | **GET** /shared-link/{id} | 
@@ -129,6 +130,63 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getAlbumAccess**
+> String getAlbumAccess(password, token)
+
+
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+// TODO Configure API key authorization: cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: api_key
+//defaultApiClient.getAuthentication<ApiKeyAuth>('api_key').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('api_key').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearer').setAccessToken(yourTokenGeneratorFunction);
+
+final api_instance = SharedLinkApi();
+final password = password; // String | 
+final token = token_example; // String | 
+
+try {
+    final result = api_instance.getAlbumAccess(password, token);
+    print(result);
+} catch (e) {
+    print('Exception when calling SharedLinkApi->getAlbumAccess: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **password** | **String**|  | [optional] 
+ **token** | **String**|  | [optional] 
+
+### Return type
+
+**String**
+
+### Authorization
+
+[cookie](../README.md#cookie), [api_key](../README.md#api_key), [bearer](../README.md#bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
