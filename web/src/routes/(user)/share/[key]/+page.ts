@@ -7,9 +7,13 @@ import { AppRoute } from '$lib/constants';
 import { goto } from '$app/navigation';
 
 export const load = (async ({ params }) => {
+  if (localStorage.getItem('joinToken')) localStorage.removeItem('joinToken')
   const { key } = params;
   const user = await getAuthUser();
-  if (!user) goto(AppRoute.AUTH_LOGIN + '?join=' + encodeURIComponent(key));
+  if (!user) {
+    localStorage.setItem('joinToken', key);
+    goto(AppRoute.AUTH_LOGIN);
+  }
   else api.sharedLinkApi.getAlbumAccess({ token: key }).then(res => goto(AppRoute.ALBUMS + '/' + res.data)).catch((err: AxiosError) => console.log(err));
 
   try {

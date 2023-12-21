@@ -5,7 +5,7 @@ import type { PageLoad } from './$types';
 
 export const load = (async ({ url }) => {
   const { data } = await api.serverInfoApi.getServerConfig();
-  const joinToken = url.searchParams.get('join') ||  undefined;
+  let joinToken = localStorage.getItem('joinToken');
   if (!data.isInitialized) {
     // Admin not registered
     throw redirect(302, AppRoute.AUTH_REGISTER);
