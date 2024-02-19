@@ -13,6 +13,15 @@
   import { handleError } from '$lib/utils/handle-error';
   import { AppRoute } from '$lib/constants';
   import { mdiArrowLeft } from '@mdi/js';
+  import QRCodeModal from '$lib/components/shared-components/create-share-link-modal/qr-code.svelte';
+
+  let showQr = false;
+  let linkToShare = '';
+
+  function openModal(key: string) {
+    linkToShare = `${window.location.origin}/share/${key}`;
+    showQr = true;
+  }
 
   let sharedLinks: SharedLinkResponseDto[] = [];
   let editSharedLink: SharedLinkResponseDto | null = null;
@@ -73,6 +82,7 @@
           on:delete={() => (deleteLinkId = link.id)}
           on:edit={() => (editSharedLink = link)}
           on:copy={() => handleCopyLink(link.key)}
+          on:qr={() => openModal(link.key)}
         />
       {/each}
     </div>
@@ -90,5 +100,14 @@
     confirmText="Delete"
     on:confirm={() => handleDeleteLink()}
     on:cancel={() => (deleteLinkId = null)}
+  />
+{/if}
+
+{#if showQr}
+  <QRCodeModal
+    link={linkToShare}
+    confirmText="Close"
+    confirmColor="primary"
+    on:confirm={() => (showQr = false)}
   />
 {/if}
