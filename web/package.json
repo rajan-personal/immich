@@ -74,6 +74,7 @@
     "svelte-loading-spinners": "^0.3.4",
     "svelte-local-storage-store": "^0.6.0",
     "svelte-maplibre": "^0.7.0",
+    "svelte-qrcode": "^1.0.0",
     "thumbhash": "^0.1.1"
   }
 }
