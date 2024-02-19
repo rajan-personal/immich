@@ -6,7 +6,7 @@
   import CircleIconButton from '../elements/buttons/circle-icon-button.svelte';
   import { createEventDispatcher } from 'svelte';
   import { goto } from '$app/navigation';
-  import { mdiCircleEditOutline, mdiContentCopy, mdiDelete, mdiOpenInNew } from '@mdi/js';
+  import { mdiCircleEditOutline, mdiContentCopy, mdiDelete, mdiOpenInNew, mdiQrcode } from '@mdi/js';
   import noThumbnailUrl from '$lib/assets/no-thumbnail.png';
 
   export let link: SharedLinkResponseDto;
@@ -16,6 +16,7 @@
     delete: void;
     copy: void;
     edit: void;
+    qr: void;
   }>();
 
   const getThumbnail = async (): Promise<AssetResponseDto> => {
@@ -172,6 +173,7 @@
       <CircleIconButton icon={mdiDelete} on:click={() => dispatch('delete')} />
       <CircleIconButton icon={mdiCircleEditOutline} on:click={() => dispatch('edit')} />
       <CircleIconButton icon={mdiContentCopy} on:click={() => dispatch('copy')} />
+      <CircleIconButton icon={mdiQrcode} on:click={() => dispatch('qr')} />
     </div>
   </div>
 </div>
