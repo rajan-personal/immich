@@ -86,6 +86,8 @@ export class AssetService {
         sidecarFile?.originalPath,
       );
 
+      // console.log('asset', asset);
+
       return { id: asset.id, duplicate: false };
     } catch (error: any) {
       // clean up files

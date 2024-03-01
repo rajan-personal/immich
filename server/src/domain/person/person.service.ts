@@ -83,6 +83,10 @@ export class PersonService {
     };
   }
 
+  async getFaceFromAsset(auth: AuthDto, assetId: string, albumId?: string ): Promise<FaceDto> {
+    return await this.handleRecognizeFace({ id: assetId });
+  }
+
   async getAllforAlbum(auth: AuthDto, albumId: string, dto: PersonSearchDto): Promise<PeopleResponseDto> {
     const { machineLearning } = await this.configCore.getConfig();
     const people = await this.repository.getAllForAlbum(albumId, {
@@ -307,6 +311,50 @@ export class PersonService {
     }
 
     return true;
+  }
+
+  async handleRecognizeFace({ id }: IEntityJob) {
+    const { machineLearning } = await this.configCore.getConfig();
+
+    let faceDto: FaceDto = { id: ""};
+
+    const relations = {
+      exifInfo: true,
+      faces: {
+        person: true,
+      },
+    };
+    const [asset] = await this.assetRepository.getByIds([id], relations);
+    if (!asset || !asset.resizePath || asset.faces?.length > 0) {
+      if (asset.faces?.length > 0){
+        faceDto.id = asset.faces[0].id;
+        return faceDto
+      }
+    }
+
+    const faces = await this.machineLearningRepository.detectFaces(
+      machineLearning.url,
+      { imagePath: asset.originalPath },
+      machineLearning.facialRecognition,
+    );
+
+    this.logger.debug(`${faces.length} faces detected in ${asset.resizePath}`);
+    this.logger.verbose(faces.map((face) => ({ ...face, embedding: `vector(${face.embedding.length})` })));
+
+    let personId;
+
+    for (const { embedding, ...rest } of faces) {
+      const matches = await this.smartInfoRepository.searchFaces({
+        ownerId: asset.ownerId,
+        embedding,
+        numResults: 1,
+        maxDistance: machineLearning.facialRecognition.maxDistance,
+      });
+      personId = matches[0]?.personId;
+      faceDto.id = personId || "";
+    }
+
+    return faceDto;
   }
 
   async handleRecognizeFaces({ id }: IEntityJob) {
