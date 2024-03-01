@@ -51,6 +51,7 @@
     mdiLink,
     mdiShareVariantOutline,
     mdiDeleteOutline,
+    mdiCamera
   } from '@mdi/js';
   import { onMount } from 'svelte';
   import { fly } from 'svelte/transition';
@@ -331,8 +332,8 @@
     viewMode = viewMode === ViewMode.VIEW ? ViewMode.ALBUM_OPTIONS : ViewMode.VIEW;
   };
 
-  const handleSelectFromComputer = async () => {
-    await openFileUploadDialog(album.id);
+  const handleSelectFromComputer = async (isVisible: boolean = true) => {
+    await openFileUploadDialog(album.id, isVisible);
     timelineInteractionStore.clearMultiselect();
     viewMode = ViewMode.VIEW;
   };
@@ -540,7 +541,7 @@
 
           <svelte:fragment slot="trailing">
             <button
-              on:click={handleSelectFromComputer}
+              on:click={() => handleSelectFromComputer(true)}
               class="rounded-lg px-6 py-2 text-sm font-medium text-immich-primary transition-all hover:bg-immich-primary/10 dark:text-immich-dark-primary dark:hover:bg-immich-dark-primary/25"
             >
               Select from computer
@@ -663,6 +664,20 @@
                       class="pr-4 text-sm font-medium hover:text-immich-primary dark:text-immich-dark-fg dark:hover:text-immich-dark-primary"
                       draggable="false">View All</a
                     > -->
+                  </div>
+                  <div class="flex flex-row {MAX_ITEMS < 5 ? 'justify-center' : ''} flex-wrap gap-4" bind:offsetWidth={innerWidth}>
+                    <!-- <button
+                      on:click={() => handleSelectFromComputer(false)}
+                      class="rounded-lg px-6 py-5 text-sm font-medium text-immich-primary transition-all hover:bg-immich-primary/10 dark:text-immich-dark-primary dark:hover:bg-immich-dark-primary/25"
+                    >
+                      Find by camera <Icon path={mdiCamera} size="24" />
+                    </button> -->
+                    <button
+                      on:click={() => handleSelectFromComputer(false)}
+                      class="rounded-lg px-6 py-5 text-sm font-medium text-immich-primary transition-all hover:bg-immich-primary/10 dark:text-immich-dark-primary dark:hover:bg-immich-dark-primary/25 flex justify-center items-center"
+                    >
+                      Find by camera &nbsp; <Icon path={mdiCamera} size="24" />
+                    </button>
                   </div>
                   <div class="flex flex-row {MAX_ITEMS < 5 ? 'justify-center' : ''} flex-wrap gap-4" bind:offsetWidth={innerWidth}>
                     {#if MAX_ITEMS}

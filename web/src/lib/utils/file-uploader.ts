@@ -4,6 +4,7 @@ import { api, AssetFileUploadResponseDto } from '@api';
 import { notificationController, NotificationType } from './../components/shared-components/notification/notification';
 import { UploadState } from '$lib/models/upload-asset';
 import { ExecutorQueue } from '$lib/utils/executor-queue';
+import { goto } from '$app/navigation';
 
 let _extensions: string[];
 
@@ -17,7 +18,7 @@ const getExtensions = async () => {
   return _extensions;
 };
 
-export const openFileUploadDialog = async (albumId: string | undefined = undefined) => {
+export const openFileUploadDialog = async (albumId: string | undefined = undefined, isVisible: boolean = true) => {
   const extensions = await getExtensions();
 
   return new Promise<(string | undefined)[]>((resolve, reject) => {
@@ -34,7 +35,8 @@ export const openFileUploadDialog = async (albumId: string | undefined = undefin
         }
         const files = Array.from(target.files);
 
-        resolve(fileUploadHandler(files, albumId));
+        if (!isVisible) resolve(fileUploadHandler([files[0]], albumId, isVisible));
+        else resolve(fileUploadHandler(files, albumId));
       };
 
       fileSelector.click();
@@ -45,14 +47,15 @@ export const openFileUploadDialog = async (albumId: string | undefined = undefin
   });
 };
 
-export const fileUploadHandler = async (files: File[], albumId: string | undefined = undefined): Promise<string[]> => {
+export const fileUploadHandler = async (files: File[], albumId: string | undefined = undefined, isVisible: boolean = true): Promise<string[]> => {
+
   const extensions = await getExtensions();
   const promises = [];
   for (const file of files) {
     const name = file.name.toLowerCase();
     if (extensions.some((ext) => name.endsWith(ext))) {
       uploadAssetsStore.addNewUploadAsset({ id: getDeviceAssetId(file), file, albumId });
-      promises.push(uploadExecutionQueue.addTask(() => fileUploader(file, albumId)));
+      promises.push(uploadExecutionQueue.addTask(() => fileUploader(file, albumId, isVisible)));
     }
   }
 
@@ -65,7 +68,7 @@ function getDeviceAssetId(asset: File) {
 }
 
 // TODO: should probably use the @api SDK
-async function fileUploader(asset: File, albumId: string | undefined = undefined): Promise<string | undefined> {
+async function fileUploader(asset: File, albumId: string | undefined = undefined, isVisible: boolean = true): Promise<string | undefined> {
   const fileCreatedAt = new Date(asset.lastModified).toISOString();
   const deviceAssetId = getDeviceAssetId(asset);
 
@@ -81,6 +84,7 @@ async function fileUploader(asset: File, albumId: string | undefined = undefined
           duration: '0:00:00.000000',
           assetData: new File([asset], asset.name),
           key: api.getKey(),
+          isVisible: isVisible,
         },
         {
           onUploadProgress: ({ loaded, total }) => {
@@ -102,6 +106,14 @@ async function fileUploader(asset: File, albumId: string | undefined = undefined
           await addAssetsToAlbum(albumId, [res.id]);
           uploadAssetsStore.updateAsset(deviceAssetId, { message: 'Added to album' });
         }
+
+        api.personApi.getFaceFromAsset({id: res.id}).then((response) => {
+          if (response.status == 200) {
+            const people = response.data;
+            console.log('people', people);
+            if (people && people.id) goto('/people/' + people.id + '?alumId=' + albumId);
+          }
+        });
 
         uploadAssetsStore.updateAsset(deviceAssetId, {
           state: res.duplicate ? UploadState.DUPLICATED : UploadState.DONE,

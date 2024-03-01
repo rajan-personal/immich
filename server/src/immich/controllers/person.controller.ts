@@ -3,6 +3,7 @@ import {
   AssetResponseDto,
   AuthDto,
   BulkIdResponseDto,
+  FaceDto,
   MergePersonDto,
   PeopleResponseDto,
   PeopleUpdateDto,
@@ -34,6 +35,11 @@ export class PersonController {
   @Get('album/:id')
   getAllPeopleFromAlbum(@Auth() auth: AuthDto, @Param() { id }: UUIDParamDto, @Query() withHidden: PersonSearchDto): Promise<PeopleResponseDto> {
     return this.service.getAllforAlbum(auth, id, withHidden);
+  }
+
+  @Get('album/asset/:id')
+  getFaceFromAsset(@Auth() auth: AuthDto, @Param() { id }: UUIDParamDto, @Query() withHidden: PersonSearchDto): Promise<FaceDto> {
+    return this.service.getFaceFromAsset(auth, id);
   }
 
   @Post()
