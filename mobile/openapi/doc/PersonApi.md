@@ -12,6 +12,7 @@ Method | HTTP request | Description
 [**createPerson**](PersonApi.md#createperson) | **POST** /person | 
 [**getAllPeople**](PersonApi.md#getallpeople) | **GET** /person | 
 [**getAllPeopleFromAlbum**](PersonApi.md#getallpeoplefromalbum) | **GET** /person/album/{id} | 
+[**getFaceFromAsset**](PersonApi.md#getfacefromasset) | **GET** /person/album/asset/{id} | 
 [**getPerson**](PersonApi.md#getperson) | **GET** /person/{id} | 
 [**getPersonAssets**](PersonApi.md#getpersonassets) | **GET** /person/{id}/assets | 
 [**getPersonStatistics**](PersonApi.md#getpersonstatistics) | **GET** /person/{id}/statistics | 
@@ -173,6 +174,63 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**PeopleResponseDto**](PeopleResponseDto.md)
+
+### Authorization
+
+[cookie](../README.md#cookie), [api_key](../README.md#api_key), [bearer](../README.md#bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getFaceFromAsset**
+> FaceDto getFaceFromAsset(id, withHidden)
+
+
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+// TODO Configure API key authorization: cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: api_key
+//defaultApiClient.getAuthentication<ApiKeyAuth>('api_key').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('api_key').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearer').setAccessToken(yourTokenGeneratorFunction);
+
+final api_instance = PersonApi();
+final id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final withHidden = true; // bool | 
+
+try {
+    final result = api_instance.getFaceFromAsset(id, withHidden);
+    print(result);
+} catch (e) {
+    print('Exception when calling PersonApi->getFaceFromAsset: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **String**|  | 
+ **withHidden** | **bool**|  | [optional] [default to false]
+
+### Return type
+
+[**FaceDto**](FaceDto.md)
 
 ### Authorization
 

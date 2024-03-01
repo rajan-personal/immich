@@ -32,6 +32,11 @@ void main() {
       // TODO
     });
 
+    //Future<FaceDto> getFaceFromAsset(String id, { bool withHidden }) async
+    test('test getFaceFromAsset', () async {
+      // TODO
+    });
+
     //Future<PersonResponseDto> getPerson(String id) async
     test('test getPerson', () async {
       // TODO
