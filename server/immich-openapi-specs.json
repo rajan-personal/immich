@@ -4187,7 +4187,7 @@
         ]
       }
     },
-    "/person/album/asset/{id}": {
+    "/person/album/getface/{id}": {
       "get": {
         "operationId": "getFaceFromAsset",
         "parameters": [
