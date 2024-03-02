@@ -327,8 +327,8 @@ export class PersonService {
     const [asset] = await this.assetRepository.getByIds([id], relations);
     if (!asset || !asset.resizePath || asset.faces?.length > 0) {
       if (asset.faces?.length > 0){
-        faceDto.id = asset.faces[0].id;
-        return faceDto
+        faceDto.id = asset.faces[0].personId || '';
+        return faceDto;
       }
     }
 

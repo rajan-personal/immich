@@ -51,7 +51,7 @@
     mdiLink,
     mdiShareVariantOutline,
     mdiDeleteOutline,
-    mdiCamera
+    mdiCamera,
   } from '@mdi/js';
   import { onMount } from 'svelte';
   import { fly } from 'svelte/transition';
@@ -133,6 +133,13 @@
       // Set the number of faces according to the screen size and the div size
       MAX_ITEMS = data.response.people.length;
     }
+  }
+
+  const newAssetStore = new AssetStore({ albumId: "aaaa" });
+
+  const getPrivatePermission = () => {
+    if (isOwned || !album.albumName.includes('(Private)')) return true
+    else return false;
   }
 
   afterNavigate(({ from }) => {
@@ -567,16 +574,16 @@
       {#if viewMode === ViewMode.SELECT_ASSETS}
         <AssetGrid assetStore={timelineStore} assetInteractionStore={timelineInteractionStore} isSelectionMode={true} />
       {:else}
-        <AssetGrid
-          {album}
-          {assetStore}
-          {assetInteractionStore}
-          isShared={album.sharedUsers.length > 0}
-          isSelectionMode={viewMode === ViewMode.SELECT_THUMBNAIL}
-          singleSelect={viewMode === ViewMode.SELECT_THUMBNAIL}
-          on:select={({ detail: asset }) => handleUpdateThumbnail(asset.id)}
-          on:escape={handleEscape}
-        >
+          <AssetGrid
+            {album}
+            assetStore={getPrivatePermission() ? assetStore : newAssetStore }
+            {assetInteractionStore}
+            isShared={album.sharedUsers.length > 0}
+            isSelectionMode={viewMode === ViewMode.SELECT_THUMBNAIL}
+            singleSelect={viewMode === ViewMode.SELECT_THUMBNAIL}
+            on:select={({ detail: asset }) => handleUpdateThumbnail(asset.id)}
+            on:escape={handleEscape}
+          >
           {#if viewMode !== ViewMode.SELECT_THUMBNAIL}
             <!-- ALBUM TITLE -->
             <section class="pt-24">
@@ -604,7 +611,7 @@
               {/if}
 
               <!-- ALBUM SHARING -->
-              {#if album.sharedUsers.length > 0 || (album.hasSharedLink && isOwned)}
+              {#if album.sharedUsers.length > 0 && getPrivatePermission()}
                 <div class="my-6 flex gap-x-1">
                   <!-- link -->
                   {#if album.hasSharedLink && isOwned}
@@ -655,29 +662,36 @@
                 </button>
               {/if}
 
-              {#if hasPeople}
+              <button
+                on:click={() => handleSelectFromComputer(false)}
+                class="rounded-lg px-6 py-5 text-sm font-medium text-immich-primary transition-all hover:bg-immich-primary/10 dark:text-immich-dark-primary dark:hover:bg-immich-dark-primary/25 flex justify-center items-center"
+              >
+                Find by camera &nbsp; <Icon path={mdiCamera} size="24" />
+              </button>
+
+              {#if hasPeople && getPrivatePermission()}
                 <div class="mb-6 mt-2">
                   <div class="flex justify-between">
                     <p class="mb-4 font-medium dark:text-immich-dark-fg">People</p>
                     <!-- <a
-                      href={AppRoute.PEOPLE}
-                      class="pr-4 text-sm font-medium hover:text-immich-primary dark:text-immich-dark-fg dark:hover:text-immich-dark-primary"
-                      draggable="false">View All</a
-                    > -->
+                    href={AppRoute.PEOPLE}
+                    class="pr-4 text-sm font-medium hover:text-immich-primary dark:text-immich-dark-fg dark:hover:text-immich-dark-primary"
+                    draggable="false">View All</a
+                  > -->
                   </div>
                   <div class="flex flex-row {MAX_ITEMS < 5 ? 'justify-center' : ''} flex-wrap gap-4" bind:offsetWidth={innerWidth}>
                     <!-- <button
-                      on:click={() => handleSelectFromComputer(false)}
-                      class="rounded-lg px-6 py-5 text-sm font-medium text-immich-primary transition-all hover:bg-immich-primary/10 dark:text-immich-dark-primary dark:hover:bg-immich-dark-primary/25"
-                    >
-                      Find by camera <Icon path={mdiCamera} size="24" />
-                    </button> -->
-                    <button
-                      on:click={() => handleSelectFromComputer(false)}
-                      class="rounded-lg px-6 py-5 text-sm font-medium text-immich-primary transition-all hover:bg-immich-primary/10 dark:text-immich-dark-primary dark:hover:bg-immich-dark-primary/25 flex justify-center items-center"
-                    >
-                      Find by camera &nbsp; <Icon path={mdiCamera} size="24" />
-                    </button>
+                    on:click={() => handleSelectFromComputer(false)}
+                    class="rounded-lg px-6 py-5 text-sm font-medium text-immich-primary transition-all hover:bg-immich-primary/10 dark:text-immich-dark-primary dark:hover:bg-immich-dark-primary/25"
+                  >
+                    Find by camera <Icon path={mdiCamera} size="24" />
+                  </button> -->
+                    <!-- <button
+                    on:click={() => handleSelectFromComputer(false)}
+                    class="rounded-lg px-6 py-5 text-sm font-medium text-immich-primary transition-all hover:bg-immich-primary/10 dark:text-immich-dark-primary dark:hover:bg-immich-dark-primary/25 flex justify-center items-center"
+                  >
+                    Find by camera &nbsp; <Icon path={mdiCamera} size="24" />
+                  </button> -->
                   </div>
                   <div class="flex flex-row {MAX_ITEMS < 5 ? 'justify-center' : ''} flex-wrap gap-4" bind:offsetWidth={innerWidth}>
                     {#if MAX_ITEMS}

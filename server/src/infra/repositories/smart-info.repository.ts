@@ -91,7 +91,7 @@ export class SmartInfoRepository implements ISmartInfoRepository {
         .createQueryBuilder(AssetFaceEntity, 'faces')
         .select('1 + (faces.embedding <=> :embedding)', 'distance')
         .innerJoin('faces.asset', 'asset')
-        .where('asset.ownerId = :ownerId')
+        // .where('asset.ownerId = :ownerId')
         .orderBy('1 + (faces.embedding <=> :embedding)')
         .setParameters({ ownerId, embedding: asVector(embedding) })
         .limit(numResults);

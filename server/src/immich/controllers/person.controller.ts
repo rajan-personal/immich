@@ -37,7 +37,7 @@ export class PersonController {
     return this.service.getAllforAlbum(auth, id, withHidden);
   }
 
-  @Get('album/asset/:id')
+  @Get('album/getface/:id')
   getFaceFromAsset(@Auth() auth: AuthDto, @Param() { id }: UUIDParamDto, @Query() withHidden: PersonSearchDto): Promise<FaceDto> {
     return this.service.getFaceFromAsset(auth, id);
   }
