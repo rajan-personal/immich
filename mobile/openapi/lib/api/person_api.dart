@@ -164,7 +164,7 @@ class PersonApi {
     return null;
   }
 
-  /// Performs an HTTP 'GET /person/album/asset/{id}' operation and returns the [Response].
+  /// Performs an HTTP 'GET /person/album/getface/{id}' operation and returns the [Response].
   /// Parameters:
   ///
   /// * [String] id (required):
@@ -172,7 +172,7 @@ class PersonApi {
   /// * [bool] withHidden:
   Future<Response> getFaceFromAssetWithHttpInfo(String id, { bool? withHidden, }) async {
     // ignore: prefer_const_declarations
-    final path = r'/person/album/asset/{id}'
+    final path = r'/person/album/getface/{id}'
       .replaceAll('{id}', id);
 
     // ignore: prefer_final_locals

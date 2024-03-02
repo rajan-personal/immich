@@ -12,7 +12,7 @@ Method | HTTP request | Description
 [**createPerson**](PersonApi.md#createperson) | **POST** /person | 
 [**getAllPeople**](PersonApi.md#getallpeople) | **GET** /person | 
 [**getAllPeopleFromAlbum**](PersonApi.md#getallpeoplefromalbum) | **GET** /person/album/{id} | 
-[**getFaceFromAsset**](PersonApi.md#getfacefromasset) | **GET** /person/album/asset/{id} | 
+[**getFaceFromAsset**](PersonApi.md#getfacefromasset) | **GET** /person/album/getface/{id} | 
 [**getPerson**](PersonApi.md#getperson) | **GET** /person/{id} | 
 [**getPersonAssets**](PersonApi.md#getpersonassets) | **GET** /person/{id}/assets | 
 [**getPersonStatistics**](PersonApi.md#getpersonstatistics) | **GET** /person/{id}/statistics | 
