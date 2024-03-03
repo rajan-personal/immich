@@ -164,16 +164,19 @@ class PersonApi {
     return null;
   }
 
-  /// Performs an HTTP 'GET /person/album/getface/{id}' operation and returns the [Response].
+  /// Performs an HTTP 'GET /person/album/getface/{id}/{albumId}' operation and returns the [Response].
   /// Parameters:
   ///
   /// * [String] id (required):
   ///
+  /// * [String] albumId (required):
+  ///
   /// * [bool] withHidden:
-  Future<Response> getFaceFromAssetWithHttpInfo(String id, { bool? withHidden, }) async {
+  Future<Response> getFaceFromAssetWithHttpInfo(String id, String albumId, { bool? withHidden, }) async {
     // ignore: prefer_const_declarations
-    final path = r'/person/album/getface/{id}'
-      .replaceAll('{id}', id);
+    final path = r'/person/album/getface/{id}/{albumId}'
+      .replaceAll('{id}', id)
+      .replaceAll('{albumId}', albumId);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -204,9 +207,11 @@ class PersonApi {
   ///
   /// * [String] id (required):
   ///
+  /// * [String] albumId (required):
+  ///
   /// * [bool] withHidden:
-  Future<FaceDto?> getFaceFromAsset(String id, { bool? withHidden, }) async {
-    final response = await getFaceFromAssetWithHttpInfo(id,  withHidden: withHidden, );
+  Future<FaceDto?> getFaceFromAsset(String id, String albumId, { bool? withHidden, }) async {
+    final response = await getFaceFromAssetWithHttpInfo(id, albumId,  withHidden: withHidden, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

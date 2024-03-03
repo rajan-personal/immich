@@ -19,6 +19,7 @@ import { NextFunction, Response } from 'express';
 import { Auth, Authenticated, FileResponse } from '../app.guard';
 import { UseValidation, sendFile } from '../app.utils';
 import { UUIDParamDto } from './dto/uuid-param.dto';
+import { ParseMeUUIDPipe } from '../api-v1/validation/parse-me-uuid-pipe';
 
 @ApiTags('Person')
 @Controller('person')
@@ -37,9 +38,14 @@ export class PersonController {
     return this.service.getAllforAlbum(auth, id, withHidden);
   }
 
-  @Get('album/getface/:id')
-  getFaceFromAsset(@Auth() auth: AuthDto, @Param() { id }: UUIDParamDto, @Query() withHidden: PersonSearchDto): Promise<FaceDto> {
-    return this.service.getFaceFromAsset(auth, id);
+  @Get('album/getface/:id/:albumId')
+  getFaceFromAsset(
+    @Auth() auth: AuthDto, 
+    @Param() { id }: UUIDParamDto, 
+    @Param('albumId', new ParseMeUUIDPipe({ version: '4' })) albumId: string,
+    @Query() withHidden: PersonSearchDto
+  ): Promise<FaceDto> {
+    return this.service.getFaceFromAsset(auth, id, albumId);
   }
 
   @Post()
@@ -63,7 +69,7 @@ export class PersonController {
 
   @Get(':id')
   getPerson(@Auth() auth: AuthDto, @Param() { id }: UUIDParamDto): Promise<PersonResponseDto> {
-    return this.service.getById(auth, id);
+    return this.service.getById(auth, id); 
   }
 
   @Put(':id')
