@@ -12,7 +12,7 @@ Method | HTTP request | Description
 [**createPerson**](PersonApi.md#createperson) | **POST** /person | 
 [**getAllPeople**](PersonApi.md#getallpeople) | **GET** /person | 
 [**getAllPeopleFromAlbum**](PersonApi.md#getallpeoplefromalbum) | **GET** /person/album/{id} | 
-[**getFaceFromAsset**](PersonApi.md#getfacefromasset) | **GET** /person/album/getface/{id} | 
+[**getFaceFromAsset**](PersonApi.md#getfacefromasset) | **GET** /person/album/getface/{id}/{albumId} | 
 [**getPerson**](PersonApi.md#getperson) | **GET** /person/{id} | 
 [**getPersonAssets**](PersonApi.md#getpersonassets) | **GET** /person/{id}/assets | 
 [**getPersonStatistics**](PersonApi.md#getpersonstatistics) | **GET** /person/{id}/statistics | 
@@ -187,7 +187,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getFaceFromAsset**
-> FaceDto getFaceFromAsset(id, withHidden)
+> FaceDto getFaceFromAsset(id, albumId, withHidden)
 
 
 
@@ -211,10 +211,11 @@ import 'package:openapi/api.dart';
 
 final api_instance = PersonApi();
 final id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final albumId = albumId_example; // String | 
 final withHidden = true; // bool | 
 
 try {
-    final result = api_instance.getFaceFromAsset(id, withHidden);
+    final result = api_instance.getFaceFromAsset(id, albumId, withHidden);
     print(result);
 } catch (e) {
     print('Exception when calling PersonApi->getFaceFromAsset: $e\n');
@@ -226,6 +227,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **String**|  | 
+ **albumId** | **String**|  | 
  **withHidden** | **bool**|  | [optional] [default to false]
 
 ### Return type

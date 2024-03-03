@@ -4187,7 +4187,7 @@
         ]
       }
     },
-    "/person/album/getface/{id}": {
+    "/person/album/getface/{id}/{albumId}": {
       "get": {
         "operationId": "getFaceFromAsset",
         "parameters": [
@@ -4197,6 +4197,14 @@
             "in": "path",
             "schema": {
               "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "name": "albumId",
+            "required": true,
+            "in": "path",
+            "schema": {
               "type": "string"
             }
           },

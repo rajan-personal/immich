@@ -32,7 +32,7 @@ void main() {
       // TODO
     });
 
-    //Future<FaceDto> getFaceFromAsset(String id, { bool withHidden }) async
+    //Future<FaceDto> getFaceFromAsset(String id, String albumId, { bool withHidden }) async
     test('test getFaceFromAsset', () async {
       // TODO
     });

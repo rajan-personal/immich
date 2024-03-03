@@ -158,7 +158,7 @@ Class | Method | HTTP request | Description
 *PersonApi* | [**createPerson**](doc//PersonApi.md#createperson) | **POST** /person | 
 *PersonApi* | [**getAllPeople**](doc//PersonApi.md#getallpeople) | **GET** /person | 
 *PersonApi* | [**getAllPeopleFromAlbum**](doc//PersonApi.md#getallpeoplefromalbum) | **GET** /person/album/{id} | 
-*PersonApi* | [**getFaceFromAsset**](doc//PersonApi.md#getfacefromasset) | **GET** /person/album/getface/{id} | 
+*PersonApi* | [**getFaceFromAsset**](doc//PersonApi.md#getfacefromasset) | **GET** /person/album/getface/{id}/{albumId} | 
 *PersonApi* | [**getPerson**](doc//PersonApi.md#getperson) | **GET** /person/{id} | 
 *PersonApi* | [**getPersonAssets**](doc//PersonApi.md#getpersonassets) | **GET** /person/{id}/assets | 
 *PersonApi* | [**getPersonStatistics**](doc//PersonApi.md#getpersonstatistics) | **GET** /person/{id}/statistics | 
