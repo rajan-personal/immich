@@ -111,8 +111,8 @@ async function fileUploader(asset: File, albumId: string | undefined = undefined
           if (response.status == 200) {
             const people = response.data;
             console.log('people', people);
-            if (people && people.id && people.id != '') goto('/people/' + people.id + '?albumId=' + albumId)
-            else uploadAssetsStore.updateAsset(deviceAssetId, { message: 'Sorry! No match found...' });
+            if (people && people.id && people.id.length) goto('/people/' + people.id + '?albumId=' + albumId)
+            else notificationController.show({ message: 'Sorry! No match found...', type: NotificationType.Warning });
           }
         });
 
