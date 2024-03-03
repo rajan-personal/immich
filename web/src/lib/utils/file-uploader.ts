@@ -107,7 +107,7 @@ async function fileUploader(asset: File, albumId: string | undefined = undefined
           uploadAssetsStore.updateAsset(deviceAssetId, { message: 'Added to album' });
         }
 
-        api.personApi.getFaceFromAsset({id: res.id}).then((response) => {
+        api.personApi.getFaceFromAsset({id: res.id, albumId: albumId || "" }).then((response) => {
           if (response.status == 200) {
             const people = response.data;
             console.log('people', people);

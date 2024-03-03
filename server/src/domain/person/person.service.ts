@@ -83,8 +83,8 @@ export class PersonService {
     };
   }
 
-  async getFaceFromAsset(auth: AuthDto, assetId: string, albumId?: string ): Promise<FaceDto> {
-    return await this.handleRecognizeFace({ id: assetId });
+  async getFaceFromAsset(auth: AuthDto, assetId: string, albumId: string ): Promise<FaceDto> {
+    return await this.handleRecognizeFace({ id: assetId }, albumId);
   }
 
   async getAllforAlbum(auth: AuthDto, albumId: string, dto: PersonSearchDto): Promise<PeopleResponseDto> {
@@ -313,7 +313,7 @@ export class PersonService {
     return true;
   }
 
-  async handleRecognizeFace({ id }: IEntityJob) {
+  async handleRecognizeFace({ id }: IEntityJob, albumId: string) {
     const { machineLearning } = await this.configCore.getConfig();
 
     let faceDto: FaceDto = { id: ""};
@@ -338,10 +338,16 @@ export class PersonService {
       machineLearning.facialRecognition,
     );
 
+    const people = await this.repository.getAllForAlbum(albumId, {
+      minimumFaceCount: machineLearning.facialRecognition.minFaces,
+      withHidden: false,
+    });
+
+    const personIds = people.map(person => person.id);
+
+
     this.logger.debug(`${faces.length} faces detected in ${asset.resizePath}`);
     this.logger.verbose(faces.map((face) => ({ ...face, embedding: `vector(${face.embedding.length})` })));
-
-    let personId;
 
     for (const { embedding, ...rest } of faces) {
       const matches = await this.smartInfoRepository.searchFaces({
@@ -350,10 +356,14 @@ export class PersonService {
         numResults: 1,
         maxDistance: machineLearning.facialRecognition.maxDistance,
       });
-      personId = matches[0]?.personId;
-      faceDto.id = personId || "";
-    }
 
+      const commonFace = matches.filter(match => personIds.includes(match.personId || ""));
+      const personId = commonFace.length > 0 && commonFace[0].personId ? commonFace[0].personId : undefined;
+      if (personId) {
+        faceDto.id = personId;
+        break;
+      }
+    }
     return faceDto;
   }
 
